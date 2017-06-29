@@ -7,6 +7,15 @@ var bodyParser = require('body-parser');
 
 var app = express();
 
+// database setup
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/test');
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('openUri', function (callback) {
+	console.log("database connected");
+})
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -22,10 +31,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 var index = require('./routes/index');
 var users = require('./routes/users');
 var customer = require('./routes/customer');
+var inquiry = require('./routes/inquiry');
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/customer', customer);
+app.use('/inquiry', inquiry);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

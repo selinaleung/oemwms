@@ -7,34 +7,64 @@ var ObjectId = mongoose.Types.ObjectId;
 var Customer = (function Customer() {
 	var that = Object.create(Customer.prototype);
 
+	// add a new customer to the database
+	that.createCustomer = function(name, phone, email, callback) {
+		customerModel.create({
+			'name': name,
+			'phone': phone,
+			'email': email,
+			'inquiries': []
+		}, function (err, customer) {
+			if (err) {
+				callback(err);
+			} else {
+				callback(null,customer);
+			}
+		});
+	};
+
 	// Checks to see if the given input corresponds to an existing customer
 	// returns the customer object if found
-	that.existsCustomer = function(name, phone, email, callback) {
-		customerModel.find({'name': name, 'phone': phone, 'email': email}, function(err, customer) {
+	that.existsCustomer = function(customer_info, callback) {
+		console.log(customer_info);
+		customerModel.findOne(customer_info, function(err, customer) {
 			if (err) {
 				console.log('err');
 				callback(err, null);
 			} else {
+				console.log(customer)
 				callback(null, customer);
-			};
+			}
 		});
 	};
 
+	that.addInquiry = function(customer, inquiry, callback) {
+		console.log(customer);
+		customerModel.findByIdAndUpdate(customer, { $push: {inquiries: inquiry} }, function (err) {
+			if (err) {
+				callback(err);
+			} else {
+				console.log(inquiry)
+				callback(null, inquiry);
+			}
+		});
+	};
 
 	// Given that the customer exists, return the inquiries 
 	that.getInquiries = function(customerId, callback) {
-		customerModel.findById(customerId, function (err, user) {
+		customerModel.findById(customerId, function (err, customer) {
 			if (err) {
 				callback(err);
-			} else if (!user) {
+			} else if (!customer) {
 				callback({ msg: 'Invalid user' });
 			} else {
-				if (user.inquiries.length) {
-					inquiryModel.find({ '_id' : { $in: user.rides } }, 
-						function (err, rides) {
+				if (customer.inquiries.length) {
+					inquiryModel.find({ '_id' : { $in: customer.inquiries } }, 
+						function (err, inquiries) {
 							if (err) {
 								callback(err);
 							} else {
+								console.log(inquiries);
 								callback(null, inquiries);
 							}
 						});
@@ -44,6 +74,8 @@ var Customer = (function Customer() {
 			};
 		});
 	};
-});
+	Object.freeze(that);
+	return that;
+})();
 
 module.exports = Customer;
