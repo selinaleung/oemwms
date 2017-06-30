@@ -23,24 +23,31 @@ var Customer = (function Customer() {
 		});
 	};
 
-	// Checks to see if the given input corresponds to an existing customer
-	// returns the customer object if found
-	that.existsCustomer = function(customer_info, callback) {
-		console.log(customer_info);
-		customerModel.findOne(customer_info, function(err, customer) {
-			if (err) {
-				console.log('err');
-				callback(err, null);
-			} else {
-				console.log(customer)
+
+	that.getCustomer = function(customerId, callback) {
+		customerModel.findById(customerId, function (err, customer) {
+			if (err){
+				callback(err, null)
+			} else{
 				callback(null, customer);
 			}
 		});
 	};
 
-	that.addInquiry = function(customer, inquiry, callback) {
-		console.log(customer);
-		customerModel.findByIdAndUpdate(customer, { $push: {inquiries: inquiry} }, function (err) {
+	// Checks to see if the given input corresponds to an existing customer
+	// returns the customer object if found
+	that.existsCustomer = function(customer_info, callback) {
+		customerModel.findOne(customer_info, function (err, customer) {
+			if (err) {
+				callback(err, null);
+			} else {
+				callback(null, customer);
+			}
+		});
+	};
+
+	that.addInquiry = function(customerId, inquiry, callback) {
+		customerModel.findByIdAndUpdate(customerId, { $push: {inquiries: inquiry} }, function (err) {
 			if (err) {
 				callback(err);
 			} else {
@@ -58,6 +65,7 @@ var Customer = (function Customer() {
 			} else if (!customer) {
 				callback({ msg: 'Invalid user' });
 			} else {
+				console.log(customer);
 				if (customer.inquiries.length) {
 					inquiryModel.find({ '_id' : { $in: customer.inquiries } }, 
 						function (err, inquiries) {

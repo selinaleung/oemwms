@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>OEM Q&A</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 
     <!-- javascripts -->
@@ -16,39 +16,9 @@
     <!-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css"> -->
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-
-    <form method="post" action="/customer/find" class="form-inline">
-		<div class="form-group">
-			<label for="name">Name</label>
-			<input type="text" class="form-control" name="name" placeholder="Jane Doe">
-		</div>
-		<div class="form-group">
-			<label for="phone">Phone</label>
-			<input type="number" class="form-control" name="phone" placeholder="9876543210">
-		</div>
-		<div class="form-group">
-			<label for="email">Email</label>
-			<input type="text" class="form-control" name="email" placeholder="jane.doe@example.com">
-		</div>
-		<button type="submit" class="btn btn-default">Search</button>
-    </form>
-
-    <form method="post" action="/customer/create" class="form-inline">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" class="form-control" name="name" placeholder="Jane Doe">
-    </div>
-    <div class="form-group">
-      <label for="phone">Phone</label>
-      <input type="number" class="form-control" name="phone" placeholder="9876543210">
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="text" class="form-control" name="email" placeholder="jane.doe@example.com">
-    </div>
-    <button type="submit" class="btn btn-default">Create User</button>
+    Hello! This will be the login in page eventually
+    <form method="post" action="/login" class="form-inline">
+      <button type="submit" class="btn btn-default">Login</button>
     </form>
   </body>
 </html>

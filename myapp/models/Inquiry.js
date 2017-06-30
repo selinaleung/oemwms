@@ -4,12 +4,13 @@ var customerModel = schemas.customerModel;
 var inquiryModel = schemas.inquiryModel;
 var ObjectId = mongoose.Types.ObjectId;
 var Customer = require('./Customer');
+var moment = require('moment');
 
 var Inquiry = (function Inquiry() {
 	var that = Object.create(Inquiry.prototype);
 
-	that.createInquiry = function(customerId, issue, solution, notes, order_num, callback) {
-		var timeCreated = new Date();
+	that.createInquiry = function(customerId, timeCreated, issue, solution, notes, order_num, callback) {
+		console.log(timeCreated);
 		inquiryModel.create({
 			customer: customerId,
 			created: timeCreated,

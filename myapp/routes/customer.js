@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var moment = require('moment');
+
 var validator = require('validator');
 
 var Customer = require('../models/Customer');
@@ -17,6 +19,8 @@ router.post('/find', function(req, res) {
 	Customer.existsCustomer(customer_info, function (err, customer) {
 		if (err) {
 			res.render('error', { 'message': 'User does not exist', 'status': 500});
+		} else if (!customer) {
+			res.render( 'customer_search', { error_msg : "User does not exist" } );
 		} else{
 			res.redirect('/customer/' + customer._id);
 		};
@@ -26,24 +30,40 @@ router.post('/find', function(req, res) {
 // Use customer ID to get customer's previous inquiries
 router.get('/:customer', function (req, res) {
 	var customerId = req.params.customer;
-	Customer.getInquiries(customerId, function (err, inquiries) {
+	Customer.getCustomer(customerId, function (err, customer) {
 		if (err) {
-			res.render('error', { 'message': 'Resource not found.', 'status': 500 });
-		} else {
-			res.render('inquiries', { title: "customer page", inquiries: inquiries, customer_id: customerId});
-		};
-	});
+			callback(err);
+		} else { 
+			Customer.getInquiries(customerId, function (err, inquiries) {
+				if (err) {
+					res.render('error', { 'message': 'Resource not found.', 'status': 500 });
+				} else {
+					res.render('customer', { customer: customer, inquiries: inquiries});
+				};
+			});
+		}
+	})
+	
 });
 
 // Create a new customer
 router.post('/create', function(req, res) {
-	Customer.createCustomer(req.body.name, req.body.phone, req.body.email, function (err, customer) {
-		if (err){
-			callback(err)
-		} else {
-			res.redirect('/customer/' + customer._id);
-		}
-	})
+	var name = req.body.name;
+	var phone = req.body.phone;
+	var email = req.body.email;
+	if (!name || !phone || !email){
+		res.render('index', { error_msg: 'Fill in all fields to create a new customer.'})
+	} else if (phone.length != 10) {
+		res.render('index', { error_msg: 'The phone number you provided is not 10 digits long.'})
+	} else {
+		Customer.createCustomer(req.body.name, req.body.phone, req.body.email, function (err, customer) {
+			if (err){
+				callback(err)
+			} else {
+				res.redirect('/customer/' + customer._id);
+			}
+		})
+	}
 })
 
 module.exports = router;
