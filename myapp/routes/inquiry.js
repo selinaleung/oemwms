@@ -22,8 +22,6 @@ router.post('/add', function(req, res) {
 });
 
 router.post('/update', function(req, res) {
-	console.log("reached update")
-	console.log(req.body);
 	Inquiry.updateInquiry(req.body.inquiry_id, req.body.notes, req.body.status, function (err, inquiry) {
 		if (err){
 			callback(err);

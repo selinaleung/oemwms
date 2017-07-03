@@ -51,7 +51,6 @@ var Customer = (function Customer() {
 			if (err) {
 				callback(err);
 			} else {
-				console.log(inquiry)
 				callback(null, inquiry);
 			}
 		});

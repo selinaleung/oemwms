@@ -5,15 +5,20 @@ var Inquiry = require('../models/Inquiry');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index');
+  res.render('login' , { 'csrf': req.csrfToken() });
 });
 
-router.post('/login', function(req, res) {
-	res.render('customer_search');
+router.post('/home', function(req, res) {
+	res.render('index');
 }); 
 
-router.get('/login', function(req, res) {
-	res.render('customer_search');
+router.get('/home', function(req, res) {
+	var user = req.session.user;
+	res.render('index', { 'csrf': req.csrfToken(), 'user': user });
+})
+
+router.get('/register', function(req, res) {
+	res.render('register',  { 'csrf': req.csrfToken() });
 })
 
 module.exports = router;

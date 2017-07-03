@@ -1,26 +1,12 @@
-function edit_row(row, inquiry) {
-	var issue = inquiry.issue;
-	var solution = inquiry.solution;
-	var notes = inquiry.notes;
-	var order_num = inquiry.order_num;
-
-
-}
-
 $(document).ready(function() {
-	//https://stackoverflow.com/questions/18014009/jquery-unable-to-submit-dynamically-created-form
 	$(".note-cell").bind("click", cellClick);
-	//$(".update-btn").on("click", updateRow);
 	$(".status-cell").bind("dblclick", statusClick)
 });
 
 $(document).on('click', '.update-btn', updateRow)
 
 
-
-
 function cellClick(e) {
-
 	if (e.currentTarget.contentEditable != null) {
 		$(e.currentTarget).attr("contentEditable", true);
 	} 
