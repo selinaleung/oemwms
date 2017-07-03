@@ -12,6 +12,7 @@
 
     <!-- css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/javascripts/inquiries.js"></script>
 
     <!-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css"> -->
   </head>
@@ -22,25 +23,36 @@
     <div class="page-header">
         <h1> <%=customer.name%> <small> <%=customer.phone%> <%=customer.email%> </small> </h1>
     </div>
+
     <table class="table table-hover table-bordered" id="inquiries_table">
     	<thead>
 	    	<tr>
-	    		<th> Time Last Modified</th>
+	    		<th> Time Created</th>
 	    		<th> Issue </th>
 	    		<th> Solution </th>
 	    		<th> Notes </th> 
-	    		<th> Order # </th>
+	    		<th> Order </th>
+                <th> Status </th>
+                <th> Update </th>
 	    	</tr>
 	    </thead>
 	    <tbody>
-	    	<% for (var i = 0; i < inquiries.length; ++i ) { %>
-		    	<tr>
-		    		<td> <%= inquiries[i].created %> </td>
-		    		<td> <%= inquiries[i].issue %> </td>
-		    		<td> <%= inquiries[i].solution %> </td>
-		    		<td> <%= inquiries[i].notes %> </td> 
-		    		<td> <%= inquiries[i].order_num %> </td>
-		    	</tr>
+	    	<% for (var i = inquiries.length-1; i >= 0; --i ) { %>
+                
+    		    	<tr id='<%=inquiries[i]._id%>'>
+    		    		<td> <%= inquiries[i].created %> </td>
+    		    		<td> <%= inquiries[i].issue %> </td>
+    		    		<td> <%= inquiries[i].solution %> </td>
+    		    		<td class="note-cell"> <%= inquiries[i].notes %> </td> 
+    		    		<td> <%= inquiries[i].order_num %> </td>
+                        <td class="status-cell"> <%= inquiries[i].status%> </td>
+                        <td> <form method="post" action="/inquiry/update">
+                            <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
+                            <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
+                            <button type="button" class="btn btn-default update-btn"> Update</button>
+                        </form> </td>
+    		    	</tr>
+                    
 	    	<% } %>
 	    </tbody>
     </table>
@@ -64,6 +76,10 @@
     		<label for="order_num"> Order #:</label>
     		<input type="tel" class="form-control" name="order_num" id="order_num"></input>
     	</div>
+        <div class="form group">
+            <label for="resolved"> Resolved: <label>
+            <input type="checkbox" aria-label="resolved" name="resolved">
+        </div>
     	<button type="submit" class="btn btn-default">Submit</button>
     	<input type="hidden" name="customer_id" value =<%= customer._id %>></input>
     </form>

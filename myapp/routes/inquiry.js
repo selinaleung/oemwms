@@ -6,14 +6,12 @@ var Inquiry = require('../models/Inquiry');
 var moment = require('moment');
 
 router.post('/add', function(req, res) {
-	console.log(req.body);
 	var timeCreated = moment().format('MM/DD/YY h:mm a');
 	var customerId = req.body.customer_id;
 	if (!req.body.issue) {
 		res.render('error', {'message': 'Invalid issue', 'status': 500});
 	} else {
-		console.log(timeCreated);
-		Inquiry.createInquiry(customerId, timeCreated, req.body.issue, req.body.solution, req.body.notes, validator.escape(validator.toInt(req.body.order_num)), function (err, inquiry) {
+		Inquiry.createInquiry(customerId, timeCreated, req.body.issue, req.body.solution, req.body.notes, req.body.order_num, req.body.resolved, function (err, inquiry) {
 			if (err) {
 				callback(err);
 			} else {
@@ -22,5 +20,17 @@ router.post('/add', function(req, res) {
 		})
 	};
 });
+
+router.post('/update', function(req, res) {
+	console.log("reached update")
+	console.log(req.body);
+	Inquiry.updateInquiry(req.body.inquiry_id, req.body.notes, req.body.status, function (err, inquiry) {
+		if (err){
+			callback(err);
+		} else {
+			res.redirect('/customer/' + req.body.customer_id)
+		}
+	})
+})
 
 module.exports = router;

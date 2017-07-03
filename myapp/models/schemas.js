@@ -9,7 +9,8 @@ var inquirySchema = new Schema({
 	issue: { type: String, required: true },
 	solution: String,
 	notes: String,
-	order_num: Number
+	order_num: Number,
+	status: { type: String, default: 'unresolved' }
 })
 
 var customerSchema = new Schema({

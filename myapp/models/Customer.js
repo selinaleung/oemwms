@@ -65,14 +65,12 @@ var Customer = (function Customer() {
 			} else if (!customer) {
 				callback({ msg: 'Invalid user' });
 			} else {
-				console.log(customer);
 				if (customer.inquiries.length) {
 					inquiryModel.find({ '_id' : { $in: customer.inquiries } }, 
 						function (err, inquiries) {
 							if (err) {
 								callback(err);
 							} else {
-								console.log(inquiries);
 								callback(null, inquiries);
 							}
 						});
