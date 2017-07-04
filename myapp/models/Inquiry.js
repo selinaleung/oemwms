@@ -9,11 +9,12 @@ var moment = require('moment');
 var Inquiry = (function Inquiry() {
 	var that = Object.create(Inquiry.prototype);
 
-	that.createInquiry = function(customerId, timeCreated, issue, solution, notes, order_num, status, callback) {
+	that.createInquiry = function(customer_id, time_created, created_by, issue, solution, notes, order_num, status, callback) {
 		var resolved = status == 'on' ? 'resolved' : 'unresolved';
 		inquiryModel.create({
-			customer: customerId,
-			created: timeCreated,
+			customer: customer_id,
+			created_on: time_created,
+			created_by: created_by, 
 			issue: issue,
 			solution: solution,
 			notes: notes,
@@ -23,7 +24,7 @@ var Inquiry = (function Inquiry() {
 			if (err) {
 				callback(err);
 			} else {
-				Customer.addInquiry(customerId, inquiry, function(err, customer){
+				Customer.addInquiry(customer_id, inquiry, function(err, customer){
 					if (err){
 						callback(err);
 					} else {
@@ -34,8 +35,8 @@ var Inquiry = (function Inquiry() {
 		});
 	}
 
-	that.updateInquiry = function(inquiryId, notes, status, callback) {
-		inquiryModel.findByIdAndUpdate(inquiryId, { $set: {notes: notes, status: status } }, {new: true}, function (err, inquiry){
+	that.updateInquiry = function(inquiry_id, notes, status, callback) {
+		inquiryModel.findByIdAndUpdate(inquiry_id, { $set: {notes: notes, status: status } }, {new: true}, function (err, inquiry){
 			if (err) {
 				callback(err);
 			} else {

@@ -11,7 +11,7 @@ router.post('/add', function(req, res) {
 	if (!req.body.issue) {
 		res.render('error', {'message': 'Invalid issue', 'status': 500});
 	} else {
-		Inquiry.createInquiry(customerId, timeCreated, req.body.issue, req.body.solution, req.body.notes, req.body.order_num, req.body.resolved, function (err, inquiry) {
+		Inquiry.createInquiry(customerId, timeCreated, req.session.user.name, req.body.issue, req.body.solution, req.body.notes, req.body.order_num, req.body.resolved, function (err, inquiry) {
 			if (err) {
 				callback(err);
 			} else {
