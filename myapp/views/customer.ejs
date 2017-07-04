@@ -47,7 +47,7 @@
     		    		<td class="note-cell"> <%= inquiries[i].notes %> </td> 
     		    		<td> <%= inquiries[i].order_num %> </td>
                         <td> <%= inquiries[i].created_by %> </td>
-                        <td class="status-cell"><%= inquiries[i].status%> </td>
+                        <td class="status-cell"><%= inquiries[i].status%></td>
                         <td> <form method="post" action="/inquiry/update">
                             <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
                             <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>

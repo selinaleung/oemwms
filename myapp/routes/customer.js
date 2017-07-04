@@ -12,9 +12,11 @@ var Inquiry = require('../models/Inquiry');
 router.post('/find', function(req, res) {
 	var customer_info = { }
 	for (attr in req.body) {
-		if (req.body[attr]) { 
-			customer_info[attr] = req.body[attr] 
-		};
+		if (attr != "_csrf"){
+			if (req.body[attr]) { 
+				customer_info[attr] = req.body[attr] 
+			};
+		}
 	}
 	Customer.existsCustomer(customer_info, function (err, customer) {
 		if (err) {
@@ -30,6 +32,7 @@ router.post('/find', function(req, res) {
 // Use customer ID to get customer's previous inquiries
 router.get('/:customer', function (req, res) {
 	var customerId = req.params.customer;
+	console.log(req.session.user);
 	Customer.getCustomer(customerId, function (err, customer) {
 		if (err) {
 			callback(err);

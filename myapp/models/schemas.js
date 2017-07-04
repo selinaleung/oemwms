@@ -6,7 +6,7 @@ var ObjectId = Schema.Types.ObjectId;
 var inquirySchema = new Schema({
 	customer: { type: ObjectId, ref: 'customerSchema'},
 	created_on: { type: String, required: true },
-	created_by: { type: ObjectId, ref: 'userSchema', required: true },
+	created_by: { type: String, required: true },
 	issue: { type: String, required: true },
 	solution: String,
 	notes: String,

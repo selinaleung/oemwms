@@ -14,6 +14,7 @@ router.post('/home', function(req, res) {
 
 router.get('/home', function(req, res) {
 	var user = req.session.user;
+	console.log(user)
 	res.render('index', { 'csrf': req.csrfToken(), 'user': user });
 })
 

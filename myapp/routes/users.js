@@ -21,13 +21,13 @@ router.post('/authenticate', function(req, res) {
 
 router.post('/login', function(req, res) {
 	var username = req.body.username;
-	console.log("herE?")
 	var password = req.body.password;
 	User.login(username, password, function (err, user) {
 		if (!user){
 			res.render('login', {'csrf': req.csrfToken(), 'error': 'That login is incorrect' })
 		} else {
 			req.session.user = user;
+			console.log(user)
 			res.redirect('/home');
 		}
 	})

@@ -8,6 +8,7 @@ var moment = require('moment');
 router.post('/add', function(req, res) {
 	var timeCreated = moment().format('MM/DD/YY h:mm a');
 	var customerId = req.body.customer_id;
+	console.log(req.session.user.name);
 	if (!req.body.issue) {
 		res.render('error', {'message': 'Invalid issue', 'status': 500});
 	} else {

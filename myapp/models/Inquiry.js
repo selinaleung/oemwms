@@ -11,10 +11,13 @@ var Inquiry = (function Inquiry() {
 
 	that.createInquiry = function(customer_id, time_created, created_by, issue, solution, notes, order_num, status, callback) {
 		var resolved = status == 'on' ? 'resolved' : 'unresolved';
+		var created_by_name = created_by.toLowerCase().split(' ').map(function(word) {
+			return word[0].toUpperCase()+word.substr(1);
+		}).join(' ');
 		inquiryModel.create({
 			customer: customer_id,
 			created_on: time_created,
-			created_by: created_by, 
+			created_by: created_by_name, 
 			issue: issue,
 			solution: solution,
 			notes: notes,
