@@ -1,4 +1,4 @@
 $(document).ready(function() {
-	//$('#inquiries_table').DataTable({});
+	$('#inquiries_table').DataTable({});
 });
 
