@@ -28,34 +28,30 @@
     	<thead>
 	    	<tr>
 	    		<th> Time Created</th>
+                <th> Order </th>
 	    		<th> Issue </th>
 	    		<th> Solution </th>
 	    		<th> Notes </th> 
-	    		<th> Order </th>
-                <th> Created By </td>
-                <th> Status </th>
-                <th> Update </th>
+                <th id="new-note-header"> New Note <span class="glyphicon glyphicon-info-sign" aria-hidden="true" id= "new-note-info" data-toggle="popover" trigger="hover" data-placement="top" data-content="Double click the row to toggle between resolved and unresolved. Hit enter after typing your new notes to update the row."></span> </th>
 	    	</tr>
 	    </thead>
 	    <tbody>
 	    	<% for (var i = inquiries.length-1; i >= 0; --i ) { %>
-                
-    		    	<tr id='<%=inquiries[i]._id%>'>
-    		    		<td> <%= inquiries[i].created_on %> </td>
-    		    		<td> <%= inquiries[i].issue %> </td>
-    		    		<td> <%= inquiries[i].solution %> </td>
-    		    		<td class="note-cell"> <%= inquiries[i].notes %> </td> 
-    		    		<td> <%= inquiries[i].order_num %> </td>
-                        <td> <%= inquiries[i].created_by %> </td>
-                        <td class="status-cell"><%= inquiries[i].status%></td>
-                        <td> <form method="post" action="/inquiry/update">
-                            <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
-                            <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
-                            <button type="button" class="btn btn-default update-btn"> Update</button>
-                            <input type="hidden" name="_csrf" value='<%=csrf%>'/>
-                        </form> </td>
-    		    	</tr>
-                    
+		    	<tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
+		    		<td> <%= inquiries[i].created_on %> </td>
+                    <td> <%= inquiries[i].order_num %> </td>
+		    		<td> <%= inquiries[i].issue %> </td>
+		    		<td> <%= inquiries[i].solution %> </td>
+                    <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
+                         <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
+                        <% } %>
+                    </td>
+                    <td class="note-cell"> <form method="post" action="/inquiry/update">
+                        <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
+                        <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
+                        <input type="hidden" name="_csrf" value='<%=csrf%>'/>
+                    </form> </td>
+		    	</tr>  
 	    	<% } %>
 	    </tbody>
     </table>

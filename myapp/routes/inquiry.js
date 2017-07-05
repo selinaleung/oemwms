@@ -6,9 +6,8 @@ var Inquiry = require('../models/Inquiry');
 var moment = require('moment');
 
 router.post('/add', function(req, res) {
-	var timeCreated = moment().format('MM/DD/YY h:mm a');
+	var timeCreated = moment().format('MM/DD h:mm a');
 	var customerId = req.body.customer_id;
-	console.log(req.session.user.name);
 	if (!req.body.issue) {
 		res.render('error', {'message': 'Invalid issue', 'status': 500});
 	} else {
@@ -23,7 +22,8 @@ router.post('/add', function(req, res) {
 });
 
 router.post('/update', function(req, res) {
-	Inquiry.updateInquiry(req.body.inquiry_id, req.body.notes, req.body.status, function (err, inquiry) {
+	var time = moment().format('MM/DD h:mm a');
+	Inquiry.updateInquiry(req.body.inquiry_id, req.session.user, req.body.notes, time, req.body.status, function (err, inquiry) {
 		if (err){
 			callback(err);
 		} else {

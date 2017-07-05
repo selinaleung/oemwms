@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+table#inquiries_table tr.unresolved {
+	background-color: #FEEC75;
+}
+
+table#inquiries_table th:nth-child(n+3):nth-child(-n+6) {
+	background-image: none;
+}

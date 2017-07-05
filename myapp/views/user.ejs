@@ -28,32 +28,27 @@
     <table class="table table-hover table-bordered" id="user_inquiries_table">
       <thead>
         <tr>
+          <th> Inquiry ID </th>
           <th> Time Created</th>
+          <th> Order </th>
           <th> Issue </th>
           <th> Solution </th>
           <th> Notes </th> 
-          <th> Order </th>
-          <th> Created By </td>
-          <th> Status </th>
-          <th> Update </th>
         </tr>
       </thead>
       <tbody>
-        <% for (var i = inquiries.length-1; i >= 0; --i ) { %>       
-          <tr id='<%=inquiries[i]._id%>'>
+        <% for (var i = inquiries.length-1; i >= 0; --i ) { %>
+          <tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
+            <td><a href="/customer/<%=inquiries[i].customer%>"> <%= inquiries[i]._id %> </a></td>
             <td> <%= inquiries[i].created_on %> </td>
+            <td> <%= inquiries[i].order_num %> </td>
             <td> <%= inquiries[i].issue %> </td>
             <td> <%= inquiries[i].solution %> </td>
-            <td class="note-cell"> <%= inquiries[i].notes %> </td> 
-            <td> <%= inquiries[i].order_num %> </td>
-            <td> <%= inquiries[i].created_by %> </td>
-            <td class="status-cell"><%= inquiries[i].status%></td>
-            <td> <form method="post" action="/inquiry/update">
-                <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
-                <button type="button" class="btn btn-default update-btn"> Update</button>
-                <input type="hidden" name="_csrf" value='<%=csrf%>'/>
-            </form> </td>
-          </tr>   
+            <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
+                 <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
+                <% } %>
+            </td>
+          </tr>  
         <% } %>
       </tbody>
     </table>

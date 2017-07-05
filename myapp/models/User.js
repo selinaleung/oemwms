@@ -81,7 +81,7 @@ var User = (function User() {
 					callback(null, []);
 				}
 			}
-		}) //figure out if I should use ID or just directly access inquiries list with req.session.user
+		})
 	}
 
 	Object.freeze(that);

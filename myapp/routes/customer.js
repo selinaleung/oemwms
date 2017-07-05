@@ -32,7 +32,6 @@ router.post('/find', function(req, res) {
 // Use customer ID to get customer's previous inquiries
 router.get('/:customer', function (req, res) {
 	var customerId = req.params.customer;
-	console.log(req.session.user);
 	Customer.getCustomer(customerId, function (err, customer) {
 		if (err) {
 			callback(err);
