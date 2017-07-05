@@ -6,7 +6,13 @@ var Inquiry = require('../models/Inquiry');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+	User.getInquiries(req.session.user._id, function (err, inquiries) {
+		if (err) {
+			res.redirect('/');
+		} else {
+			res.render('user', {'csrf': req.csrfToken(), 'inquiries': inquiries, 'user': req.session.user});
+		}
+	})
 });
 
 router.post('/authenticate', function(req, res) {

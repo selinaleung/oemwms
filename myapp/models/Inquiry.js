@@ -4,6 +4,7 @@ var customerModel = schemas.customerModel;
 var inquiryModel = schemas.inquiryModel;
 var ObjectId = mongoose.Types.ObjectId;
 var Customer = require('./Customer');
+var User = require('./User');
 var moment = require('moment');
 
 var Inquiry = (function Inquiry() {
@@ -11,7 +12,7 @@ var Inquiry = (function Inquiry() {
 
 	that.createInquiry = function(customer_id, time_created, created_by, issue, solution, notes, order_num, status, callback) {
 		var resolved = status == 'on' ? 'resolved' : 'unresolved';
-		var created_by_name = created_by.toLowerCase().split(' ').map(function(word) {
+		var created_by_name = created_by.name.toLowerCase().split(' ').map(function(word) {
 			return word[0].toUpperCase()+word.substr(1);
 		}).join(' ');
 		inquiryModel.create({
@@ -31,9 +32,15 @@ var Inquiry = (function Inquiry() {
 					if (err){
 						callback(err);
 					} else {
-						callback(null, inquiry);
+						User.addInquiry(created_by._id, inquiry, function(err, user){
+							if (err) {
+								callback(err);
+							} else {
+								callback(null, inquiry);
+							}
+						});
 					}
-				})
+				});
 			}
 		});
 	}

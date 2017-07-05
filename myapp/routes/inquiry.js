@@ -12,7 +12,7 @@ router.post('/add', function(req, res) {
 	if (!req.body.issue) {
 		res.render('error', {'message': 'Invalid issue', 'status': 500});
 	} else {
-		Inquiry.createInquiry(customerId, timeCreated, req.body.issue, req.body.solution, req.body.notes, req.body.order_num, req.body.resolved, function (err, inquiry) {
+		Inquiry.createInquiry(customerId, timeCreated, req.session.user, req.body.issue, req.body.solution, req.body.notes, req.body.order_num, req.body.resolved, function (err, inquiry) {
 			if (err) {
 				callback(err);
 			} else {
@@ -23,7 +23,7 @@ router.post('/add', function(req, res) {
 });
 
 router.post('/update', function(req, res) {
-	Inquiry.updateInquiry(req.body.inquiry_id, req.body.notes, req.body.status, req.session.user, function (err, inquiry) {
+	Inquiry.updateInquiry(req.body.inquiry_id, req.body.notes, req.body.status, function (err, inquiry) {
 		if (err){
 			callback(err);
 		} else {

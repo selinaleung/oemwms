@@ -54,14 +54,34 @@ var User = (function User() {
 		})
 	}
 
-	that.addInquiry = function(inquiryId, callback) {
-		userModel.findByIdAndUpdate(customerId, { $push: {inquiries: inquiry} }, function (err) {
+	that.addInquiry = function(userId, inquiry, callback) {
+		userModel.findByIdAndUpdate(userId, { $push: {inquiries: inquiry} }, function (err) {
 			if (err) {
 				callback(err);
 			} else {
 				callback(null, inquiry);
 			}
 		});
+	}
+
+	that.getInquiries = function(userId, callback) {
+		userModel.findById(userId, function (err, user) {
+			if (err){
+				callback(err);
+			} else {
+				if (user.inquiries.length) {
+					inquiryModel.find({ '_id': { $in: user.inquiries } }, function (err, inquiries) {
+						if (err) {
+							callback(err);
+						} else {
+							callback(null, inquiries);
+						}
+					})
+				} else {
+					callback(null, []);
+				}
+			}
+		}) //figure out if I should use ID or just directly access inquiries list with req.session.user
 	}
 
 	Object.freeze(that);
