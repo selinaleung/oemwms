@@ -11,7 +11,7 @@ var app = express();
 
 // database setup
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/test');
+mongoose.connect('mongodb://root:cherry144@35.188.45.137:27017');
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('openUri', function (callback) {
@@ -41,6 +41,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/customer', customer);
 app.use('/inquiry', inquiry);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

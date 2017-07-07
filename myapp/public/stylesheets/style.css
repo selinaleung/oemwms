@@ -1,6 +1,15 @@
 body {
-  padding: 50px;
+  padding: 30px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+#login-body {
+	background-image: url(../images/cardboard.jpg);
+ 	background-size: 100%;
+	background-repeat: repeat-y;
+}
+body, html {
+	height: 100%;
 }
 
 a {
@@ -13,4 +22,27 @@ table#inquiries_table tr.unresolved {
 
 table#inquiries_table th:nth-child(n+3):nth-child(-n+6) {
 	background-image: none;
+}
+
+.jumbotron{
+    border-radius:25px;
+    opacity: .95;
+}
+
+.jumbo-container {
+    padding-left: 10%;
+}
+
+.container {
+    background-color:white;
+    opacity: 1;
+    padding-top: 1px;
+    padding-bottom: 15px;
+    border-radius: 1px;
+    margin-bottom: 15px;
+    height:100%;
+}
+
+.navbar { 
+	margin-top: 15px;
 }

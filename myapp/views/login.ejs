@@ -11,27 +11,32 @@
 
     <!-- css -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
     <!-- <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css"> -->
   </head>
-  <body>
-    <h1> Hello! Login here please </h1>
-   <% if (typeof(error) !== 'undefined') { %>
-      <div id='error'> <%= error %> </div>
-    <% } %>
-    <form method="post" action="/users/login" class="form-inline">
-      <div class="form-group">
-        <label for="username">Userame</label>
-        <input type="text" class="form-control" name="username" placeholder="johnsmith">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" name="password">
-      </div>
+  <body id="login-body">
+    <div class="jumbotron">
+      <div class="jumbo-container">
+        <h1> OEM WMS</h1>
+        <p> Please login here: <p>
+        <% if (typeof(error) !== 'undefined') { %>
+          <div id='error'> <%= error %> </div>
+        <% } %>
 
-      <input type="hidden" name="_csrf" value=<%=csrf%>></input>
-      <button type="submit" class="btn btn-default">Login</button>
-    </form>
-    <button class="btn btn-default"> <a href="/register"> Create Account</a> </button>
+        <form method="post" action="/users/login" class="form-inline">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" name="username" placeholder="johnsmith">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password">
+          </div>
+          <input type="hidden" name="_csrf" value="<%=csrf%>"></input>
+          <button type="submit" class="btn btn-default">Login</button>
+        </form>
+
+        <button class="register-btn"> <a href="/register" role="button"> Create Account</a> </button>
+      </div>
+    </div>
   </body>
 </html>

@@ -17,40 +17,42 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css">
   </head>
   <body>
-    <header>
-      <% include header %>
-    </header>
-    <div class="page-header">
-        <h1> <%=user.name%> <small> <%=user.username%> </small> </h1>
-    </div>
+    <div class="container">
+      <header>
+        <% include header %>
+      </header>
+      <div class="page-header">
+          <h1> <%=user.name%> <small> <%=user.username%> </small> </h1>
+      </div>
 
-    <h2> Your Inquiries </h2>
-    <table class="table table-hover table-bordered" id="user_inquiries_table">
-      <thead>
-        <tr>
-          <th> Inquiry ID </th>
-          <th> Time Created</th>
-          <th> Order </th>
-          <th> Issue </th>
-          <th> Solution </th>
-          <th> Notes </th> 
-        </tr>
-      </thead>
-      <tbody>
-        <% for (var i = inquiries.length-1; i >= 0; --i ) { %>
-          <tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
-            <td><a href="/customer/<%=inquiries[i].customer%>"> <%= inquiries[i]._id %> </a></td>
-            <td> <%= inquiries[i].created_on %> </td>
-            <td> <%= inquiries[i].order_num %> </td>
-            <td> <%= inquiries[i].issue %> </td>
-            <td> <%= inquiries[i].solution %> </td>
-            <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
-                 <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
-                <% } %>
-            </td>
-          </tr>  
-        <% } %>
-      </tbody>
-    </table>
+      <h2> Your Inquiries </h2>
+      <table class="table table-hover table-bordered" id="user_inquiries_table">
+        <thead>
+          <tr>
+            <th> Inquiry ID </th>
+            <th> Time Created</th>
+            <th> Order </th>
+            <th> Issue </th>
+            <th> Solution </th>
+            <th> Notes </th> 
+          </tr>
+        </thead>
+        <tbody>
+          <% for (var i = inquiries.length-1; i >= 0; --i ) { %>
+            <tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
+              <td><a href="/customer/<%=inquiries[i].customer%>"> <%= inquiries[i]._id %> </a></td>
+              <td> <%= inquiries[i].created_on %> </td>
+              <td> <%= inquiries[i].order_num %> </td>
+              <td> <%= inquiries[i].issue %> </td>
+              <td> <%= inquiries[i].solution %> </td>
+              <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
+                   <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
+                  <% } %>
+              </td>
+            </tr>  
+          <% } %>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

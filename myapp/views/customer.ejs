@@ -17,71 +17,73 @@
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.10/css/jquery.dataTables.css">
   </head>
   <body>
-    <header>
-      <% include header %>
-    </header>
-    <div class="page-header">
-        <h1> <%=customer.name%> <small> <%=customer.phone%> <%=customer.email%> </small> </h1>
-    </div>
-
-    <table class="table table-hover table-bordered" id="inquiries_table">
-    	<thead>
-	    	<tr>
-	    		<th> Time Created</th>
-                <th> Order </th>
-	    		<th> Issue </th>
-	    		<th> Solution </th>
-	    		<th> Notes </th> 
-                <th id="new-note-header"> New Note <span class="glyphicon glyphicon-info-sign" aria-hidden="true" id= "new-note-info" data-toggle="popover" trigger="hover" data-placement="top" data-content="Double click the row to toggle between resolved and unresolved. Hit enter after typing your new notes to update the row."></span> </th>
-	    	</tr>
-	    </thead>
-	    <tbody>
-	    	<% for (var i = inquiries.length-1; i >= 0; --i ) { %>
-		    	<tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
-		    		<td> <%= inquiries[i].created_on %> </td>
-                    <td> <%= inquiries[i].order_num %> </td>
-		    		<td> <%= inquiries[i].issue %> </td>
-		    		<td> <%= inquiries[i].solution %> </td>
-                    <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
-                         <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
-                        <% } %>
-                    </td>
-                    <td class="note-cell"> <form method="post" action="/inquiry/update">
-                        <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
-                        <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
-                        <input type="hidden" name="_csrf" value='<%=csrf%>'/>
-                    </form> </td>
-		    	</tr>  
-	    	<% } %>
-	    </tbody>
-    </table>
-
-
-    <h3> Add a new inquiry </h3>
-    <form method="post" action="/inquiry/add" data-toggle="validator">
-    	<div class="form group">
-    		<label for="issue"> Issue:</label>
-    		<input type="text" class="form-control" name="issue" id="issue" required></input>
-    	</div>
-    	<div class="form group">
-    		<label for="solution"> Solution:</label>
-    		<input type="text" class="form-control" name="solution" id="solution"></input>
-    	</div>
-    	<div class="form group">
-    		<label for="notes"> Notes:</label>
-    		<input type="text" class="form-control" name="notes" id="notes"></input>
-    	</div>
-    	<div class="form group">
-    		<label for="order_num"> Order #:</label>
-    		<input type="tel" class="form-control" name="order_num" id="order_num"></input>
-    	</div>
-        <div class="form group">
-            <label for="resolved"> Resolved: <label>
-            <input type="checkbox" aria-label="resolved" name="resolved">
+    <div class="container">
+        <header>
+          <% include header %>
+        </header>
+        <div class="page-header">
+            <h1> <%=customer.name%> <small> <%=customer.phone%> <%=customer.email%> </small> </h1>
         </div>
-    	<button type="submit" class="btn btn-default">Submit</button>
-        <input type="hidden" name="_csrf" value='<%=csrf%>'/>
-    	<input type="hidden" name="customer_id" value =<%= customer._id %>></input>
-    </form>
+
+        <table class="table table-hover table-bordered" id="inquiries_table">
+        	<thead>
+    	    	<tr>
+    	    		<th> Time Created</th>
+                    <th> Order </th>
+    	    		<th> Issue </th>
+    	    		<th> Solution </th>
+    	    		<th> Notes </th> 
+                    <th id="new-note-header"> New Note <span class="glyphicon glyphicon-info-sign" aria-hidden="true" id= "new-note-info" data-toggle="popover" trigger="hover" data-placement="top" data-content="Double click the row to toggle between resolved and unresolved. Hit enter after typing your new notes to update the row."></span> </th>
+    	    	</tr>
+    	    </thead>
+    	    <tbody>
+    	    	<% for (var i = inquiries.length-1; i >= 0; --i ) { %>
+    		    	<tr id='<%=inquiries[i]._id%>' class="inquiry-row <%= inquiries[i].status === 'resolved' ? '' : 'unresolved'%>">
+    		    		<td> <%= inquiries[i].created_on %> </td>
+                        <td> <%= inquiries[i].order_num %> </td>
+    		    		<td> <%= inquiries[i].issue %> </td>
+    		    		<td> <%= inquiries[i].solution %> </td>
+                        <td> <% for (var j = inquiries[i].inqlings.length-1; j >= 0; --j ) { %>
+                             <%= inquiries[i].inqlings[j].user %> (<%= inquiries[i].inqlings[j].time %>): <%= inquiries[i].inqlings[j].note %> <br>
+                            <% } %>
+                        </td>
+                        <td class="note-cell"> <form method="post" action="/inquiry/update">
+                            <input type="hidden" name="customer_id" value='<%= customer._id %>'></input>
+                            <input type="hidden" name="inquiry_id" value='<%= inquiries[i]._id%>'></input>
+                            <input type="hidden" name="_csrf" value='<%=csrf%>'/>
+                        </form> </td>
+    		    	</tr>  
+    	    	<% } %>
+    	    </tbody>
+        </table>
+
+
+        <h3> Add a new inquiry </h3>
+        <form method="post" action="/inquiry/add" data-toggle="validator">
+        	<div class="form group">
+        		<label for="issue"> Issue:</label>
+        		<input type="text" class="form-control" name="issue" id="issue" required></input>
+        	</div>
+        	<div class="form group">
+        		<label for="solution"> Solution:</label>
+        		<input type="text" class="form-control" name="solution" id="solution"></input>
+        	</div>
+        	<div class="form group">
+        		<label for="notes"> Notes:</label>
+        		<input type="text" class="form-control" name="notes" id="notes"></input>
+        	</div>
+        	<div class="form group">
+        		<label for="order_num"> Order #:</label>
+        		<input type="tel" class="form-control" name="order_num" id="order_num"></input>
+        	</div>
+            <div class="form group">
+                <label for="resolved"> Resolved: <label>
+                <input type="checkbox" aria-label="resolved" name="resolved">
+            </div>
+        	<button type="submit" class="btn btn-default">Submit</button>
+            <input type="hidden" name="_csrf" value='<%=csrf%>'/>
+        	<input type="hidden" name="customer_id" value =<%= customer._id %>></input>
+        </form>
+    </div>
   </body>
 </html>
