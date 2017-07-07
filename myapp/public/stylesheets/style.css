@@ -31,6 +31,7 @@ table#inquiries_table th:nth-child(n+3):nth-child(-n+6) {
 
 .jumbo-container {
     padding-left: 10%;
+    padding-right: 10%;
 }
 
 .container {

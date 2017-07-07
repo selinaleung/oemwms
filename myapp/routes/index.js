@@ -5,20 +5,25 @@ var Inquiry = require('../models/Inquiry');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('login' , { 'csrf': req.csrfToken() });
+  res.render('login');
 });
 
-router.post('/home', function(req, res) {
-	res.render('index');
-}); 
-
 router.get('/home', function(req, res) {
-	var user = req.session.user;
-	res.render('index', { 'csrf': req.csrfToken(), 'user': user });
+	if (!req.session.user) {
+    	res.render('login', {'error': 'You must be logged in to see this page'});
+  	} else {
+		var user = req.session.user;
+		res.render('index', { 'user': user });
+	}
+})
+
+router.get('/logout', function(req, res, next) {
+	req.session.user = null;
+	res.render('login');
 })
 
 router.get('/register', function(req, res) {
-	res.render('register',  { 'csrf': req.csrfToken() });
+	res.render('register');
 })
 
 module.exports = router;
